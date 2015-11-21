@@ -1,0 +1,19 @@
+services:
+    acl.permissions:
+        class: src\permissions
+        arguments:
+            - @dispatcher
+            - @user
+
+    user:
+        class: src\user
+        arguments:
+            - %datetime.class%
+
+    user_loader:
+        class: src\user_loader
+        arguments:
+            - @dbal.conn
+            - %core.root_path%
+            - %core.php_ext%
+            - %tables.users%

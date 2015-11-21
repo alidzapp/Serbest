@@ -1,0 +1,141 @@
+services:
+    console.command_collection:
+        class: src\di\service_collection
+        arguments:
+            - @service_container
+        tags:
+            - { name: service_collection, tag: console.command }
+
+    console.command.cache.purge:
+        class: src\console\command\cache\purge
+        arguments:
+            - @user
+            - @cache.driver
+            - @dbal.conn
+            - @auth
+            - @log
+            - @config
+        tags:
+            - { name: console.command }
+
+    console.command.config.delete:
+        class: src\console\command\config\delete
+        arguments:
+            - @user
+            - @config
+        tags:
+            - { name: console.command }
+
+    console.command.config.increment:
+        class: src\console\command\config\increment
+        arguments:
+            - @user
+            - @config
+        tags:
+            - { name: console.command }
+
+    console.command.config.get:
+        class: src\console\command\config\get
+        arguments:
+            - @user
+            - @config
+        tags:
+            - { name: console.command }
+
+    console.command.config.set:
+        class: src\console\command\config\set
+        arguments:
+            - @user
+            - @config
+        tags:
+            - { name: console.command }
+
+    console.command.config.set_atomic:
+        class: src\console\command\config\set_atomic
+        arguments:
+            - @user
+            - @config
+        tags:
+            - { name: console.command }
+
+    console.command.cron.list:
+        class: src\console\command\cron\cron_list
+        arguments:
+            - @user
+            - @cron.manager
+        tags:
+            - { name: console.command }
+
+    console.command.cron.run:
+        class: src\console\command\cron\run
+        arguments:
+            - @user
+            - @cron.manager
+            - @cron.lock_db
+        tags:
+            - { name: console.command }
+
+    console.command.db.migrate:
+        class: src\console\command\db\migrate
+        arguments:
+            - @user
+            - @migrator
+            - @ext.manager
+            - @config
+            - @cache
+            - @log
+            - %core.root_path%
+        tags:
+            - { name: console.command }
+
+    console.command.dev.migration_tips:
+        class: src\console\command\dev\migration_tips
+        arguments:
+            - @user
+            - @ext.manager
+        tags:
+            - { name: console.command }
+
+    console.command.extension.disable:
+        class: src\console\command\extension\disable
+        arguments:
+            - @user
+            - @ext.manager
+            - @log
+        tags:
+            - { name: console.command }
+
+    console.command.extension.enable:
+        class: src\console\command\extension\enable
+        arguments:
+            - @user
+            - @ext.manager
+            - @log
+        tags:
+            - { name: console.command }
+
+    console.command.extension.purge:
+        class: src\console\command\extension\purge
+        arguments:
+            - @user
+            - @ext.manager
+            - @log
+        tags:
+            - { name: console.command }
+
+    console.command.extension.show:
+        class: src\console\command\extension\show
+        arguments:
+            - @user
+            - @ext.manager
+            - @log
+        tags:
+            - { name: console.command }
+
+    console.command.fixup.recalculate_email_hash:
+        class: src\console\command\fixup\recalculate_email_hash
+        arguments:
+            - @user
+            - @dbal.conn
+        tags:
+            - { name: console.command }

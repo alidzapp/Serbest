@@ -1,0 +1,72 @@
+services:
+    content.visibility:
+        class: src\content_visibility
+        arguments:
+            - @auth
+            - @config
+            - @dispatcher
+            - @dbal.conn
+            - @user
+            - %core.root_path%
+            - %core.php_ext%
+            - %tables.forums%
+            - %tables.posts%
+            - %tables.topics%
+            - %tables.users%
+
+    groupposition.legend:
+        class: src\groupposition\legend
+        arguments:
+            - @dbal.conn
+            - @user
+
+    groupposition.teampage:
+        class: src\groupposition\teampage
+        arguments:
+            - @dbal.conn
+            - @user
+            - @cache.driver
+
+    message.form.admin:
+        class: src\message\admin_form
+        arguments:
+            - @auth
+            - @config
+            - @config_text
+            - @dbal.conn
+            - @user
+            - %core.root_path%
+            - %core.php_ext%
+
+    message.form.topic:
+        class: src\message\topic_form
+        arguments:
+            - @auth
+            - @config
+            - @dbal.conn
+            - @user
+            - %core.root_path%
+            - %core.php_ext%
+
+    message.form.user:
+        class: src\message\user_form
+        arguments:
+            - @auth
+            - @config
+            - @dbal.conn
+            - @user
+            - %core.root_path%
+            - %core.php_ext%
+
+    pagination:
+        class: src\pagination
+        arguments:
+            - @template
+            - @user
+            - @controller.helper
+            - @dispatcher
+
+    viewonline_helper:
+        class: src\viewonline_helper
+        arguments:
+            - @filesystem

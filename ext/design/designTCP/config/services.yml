@@ -1,0 +1,29 @@
+services:
+    design.designTCP.controller:
+        class: design\designTCP\controller\main
+        arguments:
+            - @auth
+            - @config
+            - @template
+            - @user
+            - @controller.helper
+            - %core.root_path%
+            - %core.php_ext%
+            - @design.designTCP.controller.settings
+    design.designTCP.controller.settings:
+        class: design\designTCP\controller\settings
+        arguments:
+            - @auth
+            - @config
+            - @request
+            - @user
+            - @controller.helper
+    design.designTCP.listener:
+        class: design\designTCP\event\main_listener
+        arguments:
+            - @config
+            - @template
+            - @user
+            - @controller.helper
+        tags:
+            - { name: event.listener }

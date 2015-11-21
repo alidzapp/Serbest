@@ -1,0 +1,45 @@
+<?php
+
+
+namespace Symfony\Component\Config\Definition;
+
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+
+class EnumNode extends ScalarNode
+{
+    private $values;
+
+    public function __construct($name, NodeInterface $parent = null, array $values = array())
+    {
+        $values = array_unique($values);
+        if (count($values) <= 1) {
+            throw new \InvalidArgumentException('$values must contain at least two distinct elements.');
+        }
+
+        parent::__construct($name, $parent);
+        $this->values = $values;
+    }
+
+    public function getValues()
+    {
+        return $this->values;
+    }
+
+    protected function finalizeValue($value)
+    {
+        $value = parent::finalizeValue($value);
+
+        if (!in_array($value, $this->values, true)) {
+            $ex = new InvalidConfigurationException(sprintf(
+                'The value %s is not allowed for path "%s". Permissible values: %s',
+                json_encode($value),
+                $this->getPath(),
+                implode(', ', array_map('json_encode', $this->values))));
+            $ex->setPath($this->getPath());
+
+            throw $ex;
+        }
+
+        return $value;
+    }
+}

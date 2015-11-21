@@ -1,0 +1,78 @@
+services:
+    dbal.conn:
+        class: src\db\driver\factory
+        arguments:
+            - @service_container
+
+    dbal.conn.driver:
+        class: %dbal.driver.class%
+        calls:
+            - [sql_connect, [%dbal.dbhost%, %dbal.dbuser%, %dbal.dbpasswd%, %dbal.dbname%, %dbal.dbport%, false, %dbal.new_link%]]
+
+    dbal.tools:
+        class: src\db\tools
+        arguments:
+            - @dbal.conn
+
+# ----- Migrator -----
+    migrator:
+        class: src\db\migrator
+        arguments:
+            - @service_container
+            - @config
+            - @dbal.conn
+            - @dbal.tools
+            - %tables.migrations%
+            - %core.root_path%
+            - %core.php_ext%
+            - %core.table_prefix%
+            - @migrator.tool_collection
+            - @migrator.helper
+
+    migrator.helper:
+        class: src\db\migration\helper
+
+# ----- Migrator's tools -----
+    migrator.tool_collection:
+        class: src\di\service_collection
+        arguments:
+            - @service_container
+        tags:
+            - { name: service_collection, tag: migrator.tool }
+
+    migrator.tool.config:
+        class: src\db\migration\tool\config
+        arguments:
+            - @config
+        tags:
+            - { name: migrator.tool }
+
+    migrator.tool.config_text:
+        class: src\db\migration\tool\config_text
+        arguments:
+            - @config_text
+        tags:
+            - { name: migrator.tool }
+
+    migrator.tool.module:
+        class: src\db\migration\tool\module
+        arguments:
+            - @dbal.conn
+            - @cache
+            - @user
+            - %core.root_path%
+            - %core.php_ext%
+            - %tables.modules%
+        tags:
+            - { name: migrator.tool }
+
+    migrator.tool.permission:
+        class: src\db\migration\tool\permission
+        arguments:
+            - @dbal.conn
+            - @cache
+            - @auth
+            - %core.root_path%
+            - %core.php_ext%
+        tags:
+            - { name: migrator.tool }

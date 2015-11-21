@@ -1,0 +1,102 @@
+services:
+    profilefields.manager:
+        class: src\profilefields\manager
+        arguments:
+            - @auth
+            - @dbal.conn
+            - @dispatcher
+            - @request
+            - @template
+            - @profilefields.type_collection
+            - @user
+            - %tables.profile_fields%
+            - %tables.profile_fields_language%
+            - %tables.profile_fields_data%
+
+    profilefields.lang_helper:
+        class: src\profilefields\lang_helper
+        arguments:
+            - @dbal.conn
+            - %tables.profile_fields_options_language%
+
+# ----- Profile fields types -----
+    profilefields.type_collection:
+        class: src\di\service_collection
+        arguments:
+            - @service_container
+        tags:
+            - { name: service_collection, tag: profilefield.type }
+
+    profilefields.type.bool:
+        class: src\profilefields\type\type_bool
+        arguments:
+            - @profilefields.lang_helper
+            - @request
+            - @template
+            - @user
+        tags:
+            - { name: profilefield.type }
+
+    profilefields.type.date:
+        class: src\profilefields\type\type_date
+        arguments:
+            - @request
+            - @template
+            - @user
+        tags:
+            - { name: profilefield.type }
+
+    profilefields.type.dropdown:
+        class: src\profilefields\type\type_dropdown
+        arguments:
+            - @profilefields.lang_helper
+            - @request
+            - @template
+            - @user
+        tags:
+            - { name: profilefield.type }
+
+    profilefields.type.googleplus:
+        class: src\profilefields\type\type_googleplus
+        arguments:
+            - @request
+            - @template
+            - @user
+        tags:
+            - { name: profilefield.type }
+
+    profilefields.type.int:
+        class: src\profilefields\type\type_int
+        arguments:
+            - @request
+            - @template
+            - @user
+        tags:
+            - { name: profilefield.type }
+
+    profilefields.type.string:
+        class: src\profilefields\type\type_string
+        arguments:
+            - @request
+            - @template
+            - @user
+        tags:
+            - { name: profilefield.type }
+
+    profilefields.type.text:
+        class: src\profilefields\type\type_text
+        arguments:
+            - @request
+            - @template
+            - @user
+        tags:
+            - { name: profilefield.type }
+
+    profilefields.type.url:
+        class: src\profilefields\type\type_url
+        arguments:
+            - @request
+            - @template
+            - @user
+        tags:
+            - { name: profilefield.type }

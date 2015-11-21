@@ -1,0 +1,188 @@
+imports:
+    - { resource: auth.yml }
+    - { resource: avatar.yml }
+    - { resource: captcha.yml }
+    - { resource: console.yml }
+    - { resource: content.yml }
+    - { resource: cron.yml }
+    - { resource: db.yml }
+    - { resource: event.yml }
+    - { resource: feed.yml }
+    - { resource: mimetype_guesser.yml }
+    - { resource: notification.yml }
+    - { resource: password.yml }
+    - { resource: profilefield.yml }
+    - { resource: user.yml }
+
+    - { resource: tables.yml }
+    - { resource: parameters.yml }
+
+services:
+    cache:
+        class: src\cache\service
+        arguments:
+             - @cache.driver
+             - @config
+             - @dbal.conn
+             - %core.root_path%
+             - %core.php_ext%
+
+    cache.driver:
+        class: %cache.driver.class%
+
+    class_loader:
+        class: src\class_loader
+        arguments:
+            - src\
+            - %core.root_path%includes/
+            - %core.php_ext%
+        calls:
+            - [register, []]
+            - [set_cache, [@cache.driver]]
+
+    class_loader.ext:
+        class: src\class_loader
+        arguments:
+            - \
+            - %core.root_path%ext/
+            - %core.php_ext%
+        calls:
+            - [register, []]
+            - [set_cache, [@cache.driver]]
+
+    config:
+        class: src\config\db
+        arguments:
+            - @dbal.conn
+            - @cache.driver
+            - %tables.config%
+
+    config.php:
+        synthetic: true
+
+    config_text:
+        class: src\config\db_text
+        arguments:
+            - @dbal.conn
+            - %tables.config_text%
+
+    controller.helper:
+        class: src\controller\helper
+        arguments:
+            - @template
+            - @user
+            - @config
+            - @controller.provider
+            - @ext.manager
+            - @symfony_request
+            - @request
+            - @filesystem
+            - %core.root_path%
+            - %core.php_ext%
+
+    controller.resolver:
+        class: src\controller\resolver
+        arguments:
+            - @user
+            - @service_container
+            - %core.root_path%
+            - @template
+
+    controller.provider:
+        class: src\controller\provider
+        calls:
+            - [find, [%core.root_path%]]
+
+    ext.manager:
+        class: src\extension\manager
+        arguments:
+            - @service_container
+            - @dbal.conn
+            - @config
+            - @filesystem
+            - @user
+            - %tables.ext%
+            - %core.root_path%
+            - %core.php_ext%
+            - @cache.driver
+
+    filesystem:
+        class: src\filesystem
+
+    file_downloader:
+        class: src\file_downloader
+
+    http_kernel:
+        class: Symfony\Component\HttpKernel\HttpKernel
+        arguments:
+            - @dispatcher
+            - @controller.resolver
+
+    log:
+        class: src\log\log
+        arguments:
+            - @dbal.conn
+            - @user
+            - @auth
+            - @dispatcher
+            - %core.root_path%
+            - %core.adm_relative_path%
+            - %core.php_ext%
+            - %tables.log%
+
+    path_helper:
+        class: src\path_helper
+        arguments:
+            - @symfony_request
+            - @filesystem
+            - @request
+            - %core.root_path%
+            - %core.php_ext%
+            - %core.adm_relative_path%
+
+    php_ini:
+        class: src\php\ini
+
+    plupload:
+        class: src\plupload\plupload
+        arguments:
+            - %core.root_path%
+            - @config
+            - @request
+            - @user
+            - @php_ini
+            - @mimetype.guesser
+
+    request:
+        class: src\request\request
+        arguments:
+            - null
+            - %core.disable_super_globals%
+
+    # WARNING: The Symfony request does not escape the input and should be used very carefully
+    #           prefer the src request (service @request) as possible
+    symfony_request:
+        class: src\symfony_request
+        arguments:
+            - @request
+
+    template:
+        class: src\template\twig\twig
+        arguments:
+            - @path_helper
+            - @config
+            - @user
+            - @template_context
+            - @ext.manager
+
+    template_context:
+        class: src\template\context
+
+    version_helper:
+        class: src\version_helper
+        scope: prototype
+        arguments:
+            - @cache
+            - @config
+            - @file_downloader
+            - @user

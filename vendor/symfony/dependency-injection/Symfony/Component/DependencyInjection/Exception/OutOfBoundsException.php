@@ -1,0 +1,8 @@
+<?php
+
+
+namespace Symfony\Component\DependencyInjection\Exception;
+
+class OutOfBoundsException extends \OutOfBoundsException implements ExceptionInterface
+{
+}

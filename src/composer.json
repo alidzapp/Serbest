@@ -1,0 +1,27 @@
+{
+	"name": "src/src-core",
+	"description": "Collection of core src libraries",
+	"type": "library",
+	"keywords": ["src", "forum"],
+	"homepage": "www.sourceflan.blogspot.com",
+	"license": "GPL-2.0",
+	"authors": [
+		{
+			"name": "Serbest",
+			"email": "www.sourceflan.blogspot.com",
+			"homepage": "www.sourceflan.blogspot.com"
+		}
+	],
+	"support": {
+		"issues": "www.sourceflan.blogspot.com",
+		"forum": "www.sourceflan.blogspot.com",
+		"wiki": "www.sourceflan.blogspot.com",
+		"irc": "www.sourceflan.blogspot.com"
+	},
+	"autoload": {
+		"classmap": [""]
+	},
+	"require": {
+		"php": ">=5.3.3"
+    }
+}
