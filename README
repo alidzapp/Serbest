@@ -1,8 +1,6 @@
-Serbest is a web based forum and document sharing software.
+Serbest is a web based forum and document sharing software. It is a file sharing system with a web client. Use it to transparently sync files across computers and architectures. Simply drop files into your folder, and they will automatically sync to your centralized repository. Serbest offers cloud storage, file synchronization, and personal cloud. Users can create a folder and directories, which then synchronizes with other applications so that it appears to be the same folder, with the same contents regardless of which computer is used to view it. Files placed in this folder are also accessible via the mobile interfaces. It consists of cloud-based services for user identity and management, data storage, access, management, and web applications for data and service management. It also works as an Internet forum package. Features include support for multiple database engines (PostgreSQL, SQLite, MySQL, Oracle Database, Microsoft SQL Server), flat message structure as opposed to threaded, hierarchical subforums, topic split/merge/lock, user groups, multiple attachments per post, full text search, and various notification options such as e-mail, Jabber instant messaging, ATOM feeds.
 
-Serbest is a free software, you can redistribute it and/or modify it. It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY, without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-To install Serbest read the installation instructions that have been shared in the document, which you can find under 'Admin and user guide' folder.
+Serbest is a free software, you can redistribute it and/or modify it. It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY, without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. To install Serbest read the installation instructions that have been shared in the document, which you can find under 'Admin and user guide' folder.
 
 Key technology used: PHP.
 
